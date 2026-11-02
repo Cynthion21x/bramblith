@@ -75,18 +75,18 @@ else
 endif
 
 # Define required raylib variables
-RAYLIB_VERSION        = 6.2.0
-RAYLIB_API_VERSION    = 620
+RAYLIB_VERSION        = 6.2.0-custom
+RAYLIB_API_VERSION    = 620-custom
 
 # Define raylib source code path
-RAYLIB_SRC_PATH      ?= ../src
+RAYLIB_SRC_PATH      ?= ./
 
 # Define output directory for compiled library, defaults to src directory
 # NOTE: If externally provided, make sure directory exists
 RAYLIB_RELEASE_PATH  ?= $(RAYLIB_SRC_PATH)
 
 # Library type used for raylib: STATIC (.a) or SHARED (.so/.dll)
-RAYLIB_LIBTYPE       ?= STATIC
+RAYLIB_LIBTYPE       ?= SHARED
 
 # Build mode for library: DEBUG or RELEASE
 RAYLIB_BUILD_MODE    ?= RELEASE
@@ -380,7 +380,7 @@ endif
 #  -D_GNU_SOURCE            access to lots of nonstandard GNU/Linux extension functions
 #  -Werror=pointer-arith    catch unportable code that does direct arithmetic on void pointers
 #  -fno-strict-aliasing     jar_xm.h does shady stuff (breaks strict aliasing)
-CFLAGS = -Wall -D$(DEFINED_SOURCE_MACRO) -D$(TARGET_PLATFORM) -D$(GRAPHICS) -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing
+CFLAGS = -Wall -D$(DEFINED_SOURCE_MACRO) -D$(TARGET_PLATFORM) -D$(GRAPHICS) -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -O3 
 
 ifneq ($(RAYLIB_CONFIG_FLAGS), NONE)
     CFLAGS += -DEXTERNAL_CONFIG_FLAGS $(RAYLIB_CONFIG_FLAGS)
@@ -736,7 +736,8 @@ endif
 OBJS = rcore.o \
        rshapes.o \
        rtextures.o \
-       rtext.o
+       rtext.o \
+       rext_handles.o
 
 ifeq ($(TARGET_PLATFORM),PLATFORM_DESKTOP_GLFW)
     ifeq ($(USE_EXTERNAL_GLFW),FALSE)
@@ -874,6 +875,14 @@ rmodels.o : rmodels.c raylib.h rlgl.h raymath.h
 
 # Compile audio module
 raudio.o : raudio.c raylib.h
+	$(CC) -c $< $(CFLAGS) $(INCLUDE_PATHS)
+
+# ------- Extra stuff
+
+#OBJS += rext_handles.o
+
+# compile extern handles
+rext_handles.o : rext_handles.c rext.h raylib.h
 	$(CC) -c $< $(CFLAGS) $(INCLUDE_PATHS)
 
 # Compile raygui module
