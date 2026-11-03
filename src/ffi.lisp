@@ -1,27 +1,5 @@
 (in-package :rl-ffi)
 
-(defvar *raylib-loaded* nil)
-
-(defun raylib-pathname ()
-  (let ((library-name "libraylib.so.6.2.0-custom"))
-    (if (asdf:find-system :bramblith nil)
-        (asdf:system-relative-pathname
-         :bramblith
-         (format nil "build/~a" library-name))
-        (merge-pathnames
-         library-name
-         (uiop:pathname-directory-pathname
-          sb-ext:*runtime-pathname*)))))
-
-(defun initialize-raylib ()
-  (if *raylib-loaded*
-      (format t "Raylib already loaded!")
-      (progn
-	(load-shared-object (namestring (raylib-pathname)))
-        (setf *raylib-loaded* t))))
-
-(export 'initialize-raylib)
-
 (defmacro defcfun ((c-name lisp-name) result &rest args)
   `(progn (define-alien-routine (,c-name ,lisp-name) ,result ,@args)
           (export ',lisp-name)))

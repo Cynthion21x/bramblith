@@ -5,6 +5,10 @@
 
 (ensure-directories-exist "build/")
 
+(setf bramblith::*release-p* t
+      bramblith::*app-root* nil
+      bramblith::*raylib-loaded* nil) 
+
 (sb-ext:save-lisp-and-die
  "build/bramblith"
  :toplevel #'bramblith:main

@@ -7,5 +7,8 @@
 		:components ((:file "package")
 			     (:file "ffi")
 			     (:file "util")
+			     (:file "path")
 			     (:file "engine")
+			     (:file "glyphs")
+			     (:file "shades")
 			     (:file "main")))

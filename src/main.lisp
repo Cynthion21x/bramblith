@@ -1,5 +1,9 @@
 (in-package :bramblith)
 
 (defun main ()
-  (initialize-raylib)
-  (run-window 1280 720 "Bramblith"))
+  (setf *app-root* nil)
+  (init-raylib)
+  (start)
+  (load-glyphs)
+  (register-shades)
+  (wait-for-window))
