@@ -24,7 +24,7 @@ for code in range(128):
 
         character = chr(code)
 
-        if character.isprintable() and character not in '/\\':
+        if character.isprintable() and character not in '':
         
             draw = ImageDraw.Draw(image)
 
@@ -43,7 +43,7 @@ for code in range(128):
                 fill=(255, 255, 255, 255)
             )
 
-            filename = f"{chr(code)}_.png"
+            filename = f"{code}.png"
             image.save(os.path.join(OUTPUT_DIR, filename))
 
 print("Generated all 128 ASCII images!")
