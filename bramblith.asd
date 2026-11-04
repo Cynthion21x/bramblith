@@ -11,4 +11,5 @@
 			     (:file "engine")
 			     (:file "glyphs")
 			     (:file "shades")
+			     (:file "grid")
 			     (:file "main")))

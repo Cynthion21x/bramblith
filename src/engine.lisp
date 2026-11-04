@@ -14,7 +14,7 @@
   nil)
 
 (defun call-on-render-thread (fn)
-  (unless *running* (error "The render thread is not running; call (start)"))
+  (unless *running* (error "The render thread is not running!"))
   (if (eq sb-thread:*current-thread* *render-thread*)
       (funcall fn)
       (let ((result nil) (err nil) (done (sb-thread:make-semaphore)))
@@ -69,7 +69,7 @@
       (setf *running* nil))))
 
 (defun start (&key (width 1280) (height 720) (title "Bramblith"))
-  (when *running* (error "Already running; call (stop) first"))
+  (when *running* (error "Already running!"))
   (setf *running* t
         *render-thread*
         (sb-thread:make-thread

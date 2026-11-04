@@ -4,8 +4,8 @@
 #include "raylib.h"
 #include <stdint.h>
 
-#define REXT_BASE_CELL_W 8
-#define REXT_BASE_CELL_H 12
+#define REXT_BASE_CELL_W 32
+#define REXT_BASE_CELL_H 48
 
 static inline Color rext_unpack(uint32_t c) {
     return (Color){ c & 255, (c >> 8) & 255, (c >> 16) & 255, c >> 24 };
