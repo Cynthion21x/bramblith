@@ -29,6 +29,11 @@
             (float (/ (- w (* cw +cols+)) 2) 1f0)
             (float (/ (- h (* ch +rows+)) 2) 1f0))))
 
+(defun write-cells (x y string shade bg)
+  (loop for ch across string
+        for cx from x
+        do (set-cell cx y (char-glyph ch) shade bg)))
+
 (defun draw-grid ()
   (multiple-value-bind (cw ch ox oy)
       (cell-size (get-screen-width) (get-screen-height))

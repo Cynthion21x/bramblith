@@ -1,6 +1,7 @@
 (in-package :bramblith)
 
 (defvar *glyph-index* (make-hash-table :test 'eq))
+(defvar *char-glyphs* (make-array 128 :initial-element 0))
 
 (defun glyph (id)
   (or (gethash id *glyph-index*) (error "Unknown glyph ~s" id)))
@@ -16,6 +17,9 @@
                (cols (parse-integer stem :start (1+ at) :end x))
                (rows (parse-integer stem :start (1+ x))))
           (values (intern (string-upcase (subseq stem 0 at)) :keyword) cols rows)))))
+
+(defun char-glyph (ch)
+  (aref *char-glyphs* (char-code ch)))
 
 (defun filter-code (filter) (ecase filter (:point 0) (:bilinear 1) (:trilinear 2)))
 
@@ -44,10 +48,27 @@
     (shutdown-glyphs)
     (clrhash *glyph-index*)
     (let ((base (load-glyph-folder (app-path "assets/glyphs/")))
-          (art  (load-glyph-folder (app-path "assets/art/") :shaded nil :filter :bilinear :mipmaps t))
-	  (text (load-glyph-folder (app-path "assets/art/") :filter :bilinear)))
-      (format t "~&[glyphs] ~d base, ~d art~%" base art)
-      t)))
+          (art (load-glyph-folder (app-path "assets/art/") :shaded nil :filter :bilinear :mipmaps t))
+	  (text (load-text-glyphs (app-path "assets/text-glyphs/")))
+      (format t "~&[glyphs] ~d base, ~d art, ~d text~%" base art text)
+      t))))
+
+(defun load-text-glyphs (dir)
+  (let ((files (glyph-files dir)))
+    (when files
+      (%glyph-batch-begin 0)
+      (dolist (file files)
+        (let ((code (parse-integer (pathname-name file)
+                                   :junk-allowed t)))
+          (when (and code (<= 0 code 127))
+            (let ((idx (%glyph-batch-add
+                        (sb-ext:native-namestring file) 0 0)))
+              (when (minusp idx)
+                (error "Could not load text glyph image ~a" file))
+              (setf (aref *char-glyphs* code) idx)))))
+      (when (minusp (%glyph-batch-pack (filter-code :point) 0))
+        (error "Could not pack text glyphs from ~a" dir)))
+    (length files)))
 
 (defvar *shade-defs* '())
 (defvar *shade-index* (make-hash-table :test 'eq))
