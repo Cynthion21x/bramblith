@@ -75,8 +75,8 @@ else
 endif
 
 # Define required raylib variables
-RAYLIB_VERSION        = 6.2.0-custom
-RAYLIB_API_VERSION    = 620-custom
+RAYLIB_VERSION        = 6.2.0
+RAYLIB_API_VERSION    = 620
 
 # Define raylib source code path
 RAYLIB_SRC_PATH      ?= ./
@@ -92,7 +92,7 @@ RAYLIB_LIBTYPE       ?= SHARED
 RAYLIB_BUILD_MODE    ?= RELEASE
 
 # Build output name for the library
-RAYLIB_LIB_NAME      ?= raylib
+RAYLIB_LIB_NAME      ?= raylib-modified
 
 # Define resource file for DLL properties
 RAYLIB_RES_FILE      ?= ./raylib.dll.rc.data
@@ -107,7 +107,7 @@ RAYLIB_CONFIG_FLAGS  ?= NONE
 # Include raylib modules on compilation
 # NOTE: Some programs like tools could not require those modules
 RAYLIB_MODULE_AUDIO  ?= TRUE
-RAYLIB_MODULE_MODELS ?= TRUE
+RAYLIB_MODULE_MODELS ?= FALSE
 RAYLIB_MODULE_RAYGUI ?= FALSE
 
 # NOTE: Additional libraries have been moved to their own repos:

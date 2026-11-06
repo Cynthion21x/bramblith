@@ -61,7 +61,7 @@
 	 (loop while (and *running* (zerop (%window-should-close)))
                do (run-jobs)
 		  (begin-drawing)
-                  (%clear-background (rgba 20 20 30))
+                  (%clear-background *c-background*)
                   (run-hook)
                   (end-drawing))
       (shutdown-handles)

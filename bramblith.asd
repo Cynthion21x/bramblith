@@ -12,4 +12,7 @@
 			     (:file "glyphs")
 			     (:file "shades")
 			     (:file "grid")
+			     (:file "input")
+			     (:file "game")
+			     (:file "main-menu")
 			     (:file "main")))

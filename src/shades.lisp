@@ -1,5 +1,15 @@
 (in-package :bramblith)
 
+(defparameter *c-black* (rgba 0 0 0))
+(defparameter *c-white* (rgba 255 255 255))
+(defparameter *c-background* (rgba 26 27 38))
+
+(defshade :white
+    (255 255 255))
+
+(defshade :black
+    (0 0 0))
+
 (defshade :regal
     (255 255 255)
   (215 213 161)

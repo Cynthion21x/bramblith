@@ -24,7 +24,7 @@
 
 (defun init-raylib ()
   (unless *raylib-loaded*
-    (let ((lib (app-path "build/libraylib.so.6.2.0-custom")))
+    (let ((lib (app-path "libraylib-modified.so.6.2.0")))
       (unless (probe-file lib)
         (error "Cannot find ~a (app root is ~a)" lib (app-root)))
       (sb-alien:load-shared-object lib :dont-save t)

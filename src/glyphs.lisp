@@ -49,14 +49,14 @@
     (clrhash *glyph-index*)
     (let ((base (load-glyph-folder (app-path "assets/glyphs/")))
           (art (load-glyph-folder (app-path "assets/art/") :shaded nil :filter :bilinear :mipmaps t))
-	  (text (load-text-glyphs (app-path "assets/text-glyphs/")))
+	  (text (load-text-glyphs (app-path "assets/text-glyphs/"))))
       (format t "~&[glyphs] ~d base, ~d art, ~d text~%" base art text)
-      t))))
+      t)))
 
 (defun load-text-glyphs (dir)
   (let ((files (glyph-files dir)))
     (when files
-      (%glyph-batch-begin 0)
+      (%glyph-batch-begin 1)
       (dolist (file files)
         (let ((code (parse-integer (pathname-name file)
                                    :junk-allowed t)))

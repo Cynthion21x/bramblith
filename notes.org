@@ -1,6 +1,5 @@
 * measuements
 
-Window 120 x 45
-Map viewport 89x37
+Window 80 x 22
 
 Glyphs 2:3 ratio, 32x48px base size

@@ -1,7 +1,7 @@
 (in-package :bramblith)
 
-(defconstant +cols+ 60)
-(defconstant +rows+ 22)
+(defconstant +cols+ 80)
+(defconstant +rows+ 30)
 
 ;; Two words per cell:
 ;;   word 0: glyph index (low 16 bits) | shade number (high 16 bits)
@@ -29,14 +29,19 @@
             (float (/ (- w (* cw +cols+)) 2) 1f0)
             (float (/ (- h (* ch +rows+)) 2) 1f0))))
 
-(defun write-cells (x y string shade bg)
+(declaim (inline put-char))
+(defun put-char (x y ch shade bg)
+  (check-type ch character)
+  (set-cell x y (char-glyph ch) shade bg))
+
+(declaim (inline put-string))
+(defun put-string (x y string shade bg)
   (loop for ch across string
         for cx from x
-        do (set-cell cx y (char-glyph ch) shade bg)))
+        do (put-char cx y ch shade bg)))
 
 (defun draw-grid ()
   (multiple-value-bind (cw ch ox oy)
       (cell-size (get-screen-width) (get-screen-height))
     (sb-sys:with-pinned-objects (*cells*)
       (%draw-glyph-grid (sb-sys:vector-sap *cells*) +cols+ +rows+ cw ch ox oy))))
-
